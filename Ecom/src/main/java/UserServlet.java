@@ -92,21 +92,92 @@ public class UserServlet extends HttpServlet {
 		String action = request.getServletPath();
 		try {
 			switch (action) {
-			case "/insert":
+			case "/UserServlet/delete":
+				deleteUser(request, response);
 				break;
-			case "/delete":
+			case "/UserServlet/edit":
+				showEditForm(request, response);
 				break;
-			case "/edit":
+			case "/UserServlet/update":
+				updateUser(request, response);
 				break;
-			case "/update":
-				break;
-			default:
+			case "/UserServlet/dashboard":
 				listUsers(request, response);
 				break;
 			}
 		} catch (SQLException ex) {
 			throw new ServletException(ex);
 		}
+	}
+
+	private void showEditForm(HttpServletRequest request, HttpServletResponse response)
+			throws SQLException, ServletException, IOException {
+		// get parameter passed in the URL
+		String username = request.getParameter("username");
+		User existingUser = new User("", "", "", "", "");
+		// Step 1: Establishing a Connection
+		try (Connection connection = getConnection();
+				// Step 2:Create a statement using connection object
+				PreparedStatement preparedStatement = connection.prepareStatement(SELECT_USER_BY_ID);) {
+			preparedStatement.setString(1, username);
+			// Step 3: Execute the query or update query
+			ResultSet rs = preparedStatement.executeQuery();
+			// Step 4: Process the ResultSet object
+			while (rs.next()) {
+				username = rs.getString("username");
+				String password = rs.getString("password");
+				String email = rs.getString("email");
+				String mobilenumber = rs.getString("mobilenumber");
+				String gender = rs.getString("gender");
+				existingUser = new User(username, password, email, mobilenumber, gender);
+			}
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}
+		// Step 5: Set existingUser to request and serve up the userEdit form
+		request.setAttribute("user", existingUser);
+		request.getRequestDispatcher("/userEdit.jsp").forward(request, response);
+	}
+
+	// method to update the user table base on the form data
+	private void updateUser(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
+		// Step 1: Retrieve value from the request
+		String oriName = request.getParameter("oriName");
+		String username = request.getParameter("username");
+		String password = request.getParameter("password");
+		String email = request.getParameter("email");
+		String mobilenumber = request.getParameter("mobilenumber");
+		String gender = request.getParameter("gender");
+
+		// Step 2: Attempt connection with database and execute update user SQL query
+		try (Connection connection = getConnection();
+				PreparedStatement statement = connection.prepareStatement(UPDATE_USERS_SQL);) {
+			statement.setString(1, username);
+			statement.setString(2, password);
+			statement.setString(3, email);
+			statement.setString(4, mobilenumber);
+			statement.setString(5, gender);
+			statement.setString(6, oriName);
+			int i = statement.executeUpdate();
+		}
+		// Step 3: redirect back to UserServlet (note: remember to change the url to
+		// your project name)
+		response.sendRedirect("http://localhost:8090/Ecom/UserServlet/dashboard");
+	}
+
+	// method to delete user
+	private void deleteUser(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
+		// Step 1: Retrieve value from the request
+		String username = request.getParameter("username");
+		// Step 2: Attempt connection with database and execute delete user SQL query
+		try (Connection connection = getConnection();
+				PreparedStatement statement = connection.prepareStatement(DELETE_USERS_SQL);) {
+			statement.setString(1, username);
+			int i = statement.executeUpdate();
+		}
+		// Step 3: redirect back to UserServlet dashboard (note: remember to change the
+		// url to your project name)
+		response.sendRedirect("http://localhost:8090/Ecom/UserServlet/dashboard");
 	}
 
 	/**
