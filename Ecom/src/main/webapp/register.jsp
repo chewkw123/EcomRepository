@@ -12,7 +12,7 @@
 	<h3>Username: <input type="text" name= "username"></h3>
 	<h3>Password: <input type="password" name ="password"></h3>
 	<h3>Email: <input type="text" name= "email"></h3>
-	<h3>Mobile Number: <input type="number" name= "mobile number"></h3>
+	<h3>Mobile Number: <input type="text" name= "mobilenumber"></h3>
 	<h3>Gender: <select name="gender">
 		<option>Male</option>
 		<option>Female</option>
