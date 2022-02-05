@@ -53,7 +53,7 @@ public class RegisterEcomServlet extends HttpServlet {
 		String n = request.getParameter("username");
 		String p = request.getParameter("password");
 		String e = request.getParameter("email");
-		String m = request.getParameter("mobile number");
+		String m = request.getParameter("mobilenumber");
 		String g = request.getParameter("gender");
 
 		// Step 3: attempt connection to database using JDBC, you can change the
