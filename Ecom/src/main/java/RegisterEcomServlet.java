@@ -13,7 +13,7 @@ import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
-//import java.util.*;
+
 
 /**
  * Servlet implementation class RegisterEcomServlet
@@ -83,23 +83,11 @@ public class RegisterEcomServlet extends HttpServlet {
 			if (i > 0) {
 				PrintWriter writer = response.getWriter();
 				writer.println("<h1>" + "You have successfully registered an account!" + "</h1>");
+				response.sendRedirect("http://localhost:8090/Ecom/UserServlet/dashboard");
 				writer.close();
 			}
 
-//			Button b = new Button("push me");
-//			b.addActionListener((ActionListener) new ActionListener() {
-//
-//			    public void actionPerformed1(ActionEvent e) {
-//			        //your actions
-//			    }
-//
-//				@Override
-//				public void actionPerformed(ActionEvent e) {
-//					// TODO Auto-generated method stub
-//					
-//				}
-//			});
-			
+//		
 			
 		
 		}

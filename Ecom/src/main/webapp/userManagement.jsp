@@ -18,11 +18,7 @@
 		<div class="container">
 			<h3 class="text-center">List of Users</h3>
 			<hr>
-			<div class="container text-left">
-				<!-- Add new user button redirects to the register.jsp page -->
-				<a href="<%=request.getContextPath()%>/register.jsp"
-					class="btn btnsuccess">Add New User</a>
-			</div>
+			
 			<br>
 			<!-- Create a table to list out all current users information -->
 			<table class="table">
@@ -54,6 +50,11 @@
 					</c:forEach>
 				</tbody>
 			</table>
+			<div class="container text-left">
+				<!-- Add new user button redirects to the register.jsp page -->
+				<a href="<%=request.getContextPath()%>/register.jsp"
+					class="btn btnsuccess">Add New User</a>
+			</div>
 		</div>
 	</div>
 </body>
